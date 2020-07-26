@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 12px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+h3.impact {
+  font-family: Brush Script MT;
+}
+p9.impact {
+  font-family: Comic Sans MS;
+}
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+
+
+
+
+
+img {
+display: block;
+  border-radius: 80%;
+    margin-left: 610px;
+    margin-top: 40px;
+  margin-right: auto;
+}
+    body, html {
+        height: 100%;
+        margin: 0;
+        background: #7F7FD5;
+        background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    }
+
+    p {
+        border-left: 2px solid blue;
+        border-right: 2px solid blue;
+        border-top: 2px solid blue;
+        border-bottom: 2px solid blue;
+        border-radius: 5px 10px 5px 10px;
+        width: 200px;
+        padding: 5px;
+    }
+
+
+    p2 {
+        border-left: 2px solid palevioletred;
+        border-right: 2px solid palevioletred;
+        border-top: 2px solid palevioletred;
+        border-bottom: 2px solid palevioletred;
+        border-radius: 10px 5px 10px 2px;
+        width: 200px;
+        padding: 5px;
+    }
+
+    .content {
+        max-width: 200px;
+        margin: auto;
+        padding: 100px
+        border: solid 1.4px purple;
+        animation: myanim 5s infinite;
+    }
+
+    @keyframes myanim {
+        20% {
+            border-color: yellow;
+        }
+    }
+
+    #mySidenav a {
+  position: absolute;
+  left: -100px;
+  transition: 0.8s;
+  padding: 15px;
+  width: 100px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 20px 20px 0;
+}
+
+#mySidenav a:hover {
+  left: 0;
+}
+
+#about {
+  top: 90px;
+  background-color: #4CAF50;
+}
+
+#blog {
+  top: 150px;
+  background-color: #2196F3;
+}
+
+#projects {
+  top: 210px;
+  background-color: #f44336;
+}
+input[type=text] {
+  width: 150px;
+  -webkit-transition: width .35s ease-in-out;
+  transition: width .35s ease-in-out;
+}
+input[type=text]:focus {
+  width: 200px;
+}
+#contact {
+  top: 270px;
+  background-color: #555
+}
+h1 {
+  text-align : center;
+}
+
+h1 {
+color: White;
+  text-shadow: 1px 1px 1px black, 0 0 25px purple, 0 0 2px black;
+  position: relative;
+
+}
+
+</style>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt=""  style="width:100px">
+
+<h1>Dynamic Chat bot</h1>
+<div class="content" ,>
+    <div align="left" id="chatbox">
+        <p class="botText"><span>Hi!</span></p>
+    </div>
+    <div align="right" id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="Message">
+        <input id="buttonInput" type="submit" value="Send">
+    </div>
+    <script>
+        function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<p2 class = "userText"><span>' + rawText + '</span></p2>';
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            document.getElementById('userInput').scrollIntoView({block: 'start', behaviour: 'smooth'});
+            $.get("/get", {msg: rawText}).done(function (data) {
+                    var botHtml = '<p class ="botText"><span>' + data + '</span></p>';
+                    $("#chatbox").append(botHtml);
+                    document.getElementById('userInput').scrollIntoView({block: 'start', behaviour: 'smooth'});
+                }
+            )
+            ;
+        }
+
+        $("#textInput").keypress(function (e) {
+            if (e.which == 13) {
+                getBotResponse();
+            }
+        });
+        $("#buttonInput").click(function () {
+            getBotResponse();
+        })
+    </script>
+
+    <div id="mySidenav" class="sidenav">
+  <a href="https://github.com/samir321-pixel" id="about">GitHub</a>
+  <a href="https://www.facebook.com/sameer.saitwal" id="blog">Facebook</a>
+  <a href="https://www.instagram.com/chococookey/" id="projects">Instagram</a>
+  <a href="https://twitter.com/SaitwalSamir" id="contact">Twitter</a>
+</div>
+
+<div style="margin-left:80px;">
+
+</div>
+</div>
+<button class="open-button" onclick="openForm()">About Chat Bot</button>
+
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+
+
+    <h3 class="impact" style="text-align:center">Chat Bot</h3>
+
+
+    <p9 class="impact">This is chat bot created by Samir. A chatbot is an artificial intelligence (AI) software that can simulate a conversation (or a chat) with a user in natural language through messaging applications, websites, mobile apps or through the telephone.</p9>
+
+
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+</body>
+</html>

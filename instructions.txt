@@ -1,0 +1,15 @@
+First extract the folder and you can see recording to understand.
+
+Create your own custom yml file (Yay My Life) format with shown format for giving questions and answers thats how your bot will be self learning..
+
+I am also adding css file in static folder ..
+
+C:\Users\Administrator\Desktop\bot\ mkdir static
+
+C:\Users\Administrator\Desktop\bot\notepad css
+
+thats how u create css file and check the styling in given 
+
+finally you can run
+
+C:\Users\Administrator\Desktop\bot\python sample.py
